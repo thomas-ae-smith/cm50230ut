@@ -19,8 +19,7 @@ namespace Posh_sharp.POSHBot
         internal CombatInfo info;
 
         public Tester(AgentBase agent)
-            :base(agent,new string[] {"MakeJump",
-                            "TemplateAction2"},
+            :base(agent,new string[] {"MakeJump"},
                         new string[] {"TemplateSense1",
                             "TemplateSense2"})
         {
