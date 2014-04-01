@@ -17,9 +17,9 @@
 (AP shoot-carrier (minutes 1.0) (
 	ShootEnemyCarryingOurFlag
 ))
-(C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
+(C wander-map (seconds 2.0) (goal ((have_enemy_flag 1.0 =)))
 	(elements
-		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
+		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =) (selected_navpoint_reachable))) moveto-selected-nav)	)
 		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint)	)
 	)
 )
@@ -62,7 +62,7 @@
 		(return-our-flag (trigger ((OurFlagOnGround 1.0 =))) get-our-flag(seconds 0.3)))
 		(
 
-		(shoot-enemy-carrier (trigger ((SeeEnemyWithOurFlag 1.0 =))) shoot-carrier))
+		(shoot-enemy-carrier (trigger ((SeeEnemyWithOurFlag 1.0 =))) shoot-carrier(seconds 0.3)))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
@@ -71,10 +71,10 @@
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
 		(
 
-		(attack (trigger ((SeeEnemy 1.0 =) (ArmedAndAmmo 1.0 =))) attack))
+		(attack (trigger ((SeeEnemy 1.0 =) (ArmedAndAmmo 1.0 =))) attack(seconds 0.3)))
 		(
 
-		(wander_around (trigger ((focusing_task 1.0 !=))) wander-map(seconds 0.3)))
+		(wander_around (trigger ((succeed 1.0 =))) wander-map(seconds 0.3)))
 		(
 
 		(inch (trigger ((succeed))) AP-inch(seconds 0.1)))
