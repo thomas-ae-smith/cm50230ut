@@ -20,8 +20,7 @@ namespace Posh_sharp.POSHBot
 
         public Tester(AgentBase agent)
             :base(agent,new string[] {"MakeJump"},
-                        new string[] {"TemplateSense1",
-                            "TemplateSense2"})
+                        new string[] {"IsStuck"})
         {
             info = new CombatInfo();
         }
@@ -111,20 +110,12 @@ namespace Posh_sharp.POSHBot
         /// </summary>
         /// <returns>Senses can return bools, ints, floats and longs but should not return complex objects. If you are in need of complex 
         /// information about the world you should store those inside the behaviour and let actions read them directly.</returns>
-        [ExecutableSense("TemplateSense1")]
+        [ExecutableSense("IsStuck")]
         public bool TemplateSense1()
         {
             if (_debug_)
                 Console.Out.WriteLine(" in TemplateSense1");
             return false;
-        }
-
-        [ExecutableSense("TemplateSense2")]
-        public int TemplateSense2()
-        {
-            if (_debug_)
-                Console.Out.WriteLine(" in TemplateSense2");
-            return 0;
         }
     }
 }     
