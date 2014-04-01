@@ -3,16 +3,24 @@
 ; lost the next time the tool is used.
 ; -------------------------------------------------------------
 (
+(documentation "Your Title" "Your Name" "Your file comments")
 (AP AP-inch (seconds 1.0) (
 	idle
 ))
 (AP AP-moveing (minutes 1.0) (
 	moveto_navpoint
 ))
+(AP jump_over (minutes 1.0) (
+	MakeJump 
+	moveto_navpoint
+))
+(AP shoot-carrier (minutes 1.0) (
+	ShootEnemyCarryingOurFlag
+))
 (C wander-map (seconds 2.0) (goal ((focusing_task 1.0 =)))
 	(elements
 		(	(CE-moveto-navpoint (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
-		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint )	)
+		(	(CE-find-nxt-waypoint (trigger ((close_navpoint 1.0 =))) select_navpoint)	)
 	)
 )
 (C get-enemy-flag (seconds 30.0) (goal ((have_enemy_flag 1.0 =)))
@@ -32,14 +40,38 @@
 		(	(CE-moveto-navpoint (trigger ((close_navpoint 1.0 =) (is_walking 1.0 !=) (selected_navpoint_reachable 1.0 =))) moveto_navpoint)	)
 	)
 )
+(C get-our-flag (seconds 1.0) (goal ((OurFlagOnGround 1.0 !=)))
+	(elements
+		(	(CE-moveto-our-flag (trigger ((selected_target 1.0 =) (reached_target 0.0 =))) moveto-selected-nav)	)
+		(	(CE-get-our-flag (trigger ((OurFlagOnGround 1.0 =))) select_own_flag)	)
+	)
+)
+(C attack (minutes 1.0) (goal ((SeeEnemy 1.0 !=)))
+	(elements
+		(	(ShootAttacker (trigger ((selected_target 1.0 =) (ArmedAndAmmo 1.0 =))) ShootAttacker)	)
+		(	(SetAttacker (trigger ((SeeEnemy 1.0 =))) SetAttacker)	)
+	)
+)
 (SRDC life (goal ((game_ended 1.0 =)))
 	(drives
+		(
+
+		(jump-obstacle (trigger ((IsStuck 1.0 =))) jump_over(seconds 0.3)))
+		(
+
+		(return-our-flag (trigger ((OurFlagOnGround 1.0 =))) get-our-flag(seconds 0.3)))
+		(
+
+		(shoot-enemy-carrier (trigger ((SeeEnemyWithOurFlag 1.0 =))) shoot-carrier))
 		(
 
 		(return-enemy-flag (trigger ((have_enemy_flag 1.0 =))) retrace-back(seconds 0.3)))
 		(
 
 		(get-enemy-flag-from-base (trigger ((enemy_flag_reachable 1.0 =))) get-enemy-flag(seconds 0.3)))
+		(
+
+		(attack (trigger ((SeeEnemy 1.0 =) (ArmedAndAmmo 1.0 =))) attack))
 		(
 
 		(wander_around (trigger ((focusing_task 1.0 !=))) wander-map(seconds 0.3)))
