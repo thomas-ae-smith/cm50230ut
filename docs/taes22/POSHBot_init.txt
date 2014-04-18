@@ -1,0 +1,23 @@
+﻿# This agent initialisisation file initialises an attack bot, which uses the 
+# attackbot.lap plan file.  This is the version using old scheduled POSH
+# Note: Gamebots does not seem to set the names of the bots properly so botname
+# won't be used.
+
+
+[POSHBot]
+POSHBot.botname = Icelus
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
+
+[POSHBot]
+POSHBot.botname = Morpheus
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
+
+[POSHBot]
+POSHBot.botname = Phantasos
+POSHBot.team = 0
+POSHBot.ip = 127.0.0.1
+POSHBot.port = 3000
